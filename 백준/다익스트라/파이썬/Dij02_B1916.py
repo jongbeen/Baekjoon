@@ -1,30 +1,30 @@
 from heapq import heappush, heappop
 
-def dijkstra(v, k, g):
-    dist = [INF] * v
-    dist[k - 1] = 0
-    q = []
-    heapq.heappush(q, [0, k-1])
+INF = 1e9
 
-    while q:
-        cost, pos = heapq.heappop(q)
-
-        for p, c in g[pos]:
+def dijkstra(V,start,graph):
+    dist = [INF] * V
+    dist[start-1] = 0
+    queue =[]
+    heappush(queue, [0, start-1])
+    
+    while queue:
+        cost , pos = heappop(queue)
+        for p,c in graph[pos]:
             c += cost
             if c < dist[p]:
                 dist[p] = c
-                heapq.heappush(q, [c, p])
+                heappush(queue,[c,p])
     return dist
 
 
-Graph = [[] for _ in range(V)]
-
 N = int(input())
 M = int(input())
+Graph = [[] for _ in range(N)]
 for _ in range(M):
-    u, v, w = map(int, input().split())
-    Graph[u-1].append([v-1, w])
-Start,End = list(map(int,input().split()))
+    u,v,w = list(map(int,input().split()))
+    Graph[u-1].append([v-1,w])
 
-Path = dijkstra(N,Start,Graph)
-print(Path[End-1])
+S,E = list(map(int,input().split()))
+Path = dijkstra(N,S,Graph)
+print(Path[E-1])
